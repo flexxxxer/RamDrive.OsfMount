@@ -8,6 +8,7 @@ on:
   pull_request:
     paths-ignore:
       - README.md
+      - CONTRIBUTION.md
       - .gitignore
 jobs:
   build-and-test:
