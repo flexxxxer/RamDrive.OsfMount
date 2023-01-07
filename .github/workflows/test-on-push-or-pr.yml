@@ -1,0 +1,23 @@
+name: Test on push or pull-request
+on:
+  push:
+    paths-ignore:
+      - README.md
+      - .gitignore
+  pull_request:
+    paths-ignore:
+      - README.md
+      - .gitignore
+jobs:
+  build-and-test:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Rebuild # tests sometimes do not want to work without it
+        run: dotnet build --no-incremental --no-restore
+      - name: Run tests
+        run: dotnet test --no-restore
