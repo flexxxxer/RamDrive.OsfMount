@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ByteSizeLib;
+
 using EnumFastToStringGenerated;
 
 #if NETFRAMEWORK
@@ -101,7 +102,7 @@ public static class OsfMountRamDrive
                 var letter = driveLetter.Value.ToStringFast()[0];
 
                 // this check is not guaranteed to be free of problems, but it can probably detect a mount letter already in use
-                if (DriveInfo.GetDrives().Where(d => d.Name.Length is 3).Any(d => d.Name[0] == letter))
+                if (DriveInfo.GetDrives().Any(d => d.Name.Length is 3 && d.Name[0] == letter))
                 {
                     return new MountError(new MountError.DriveLetterInUseOrNotAllowed(driveLetter.Value));
                 }
@@ -144,7 +145,7 @@ public static class OsfMountRamDrive
                     WindowStyle = ProcessWindowStyle.Hidden,
                 },
             };
-            process.Start();
+            _ = process.Start();
             await process.WaitForExitAsync();
             return process.ExitCode switch
             {
@@ -154,7 +155,7 @@ public static class OsfMountRamDrive
         }
         finally
         {
-            Semaphore.Release();
+            _ = Semaphore.Release();
         }
     }
 
@@ -181,7 +182,7 @@ public static class OsfMountRamDrive
                     WindowStyle = ProcessWindowStyle.Hidden,
                 },
             };
-            process.Start();
+            _ = process.Start();
             await process.WaitForExitAsync();
             var stdError = process.StandardError.ReadToEnd();
             var stdOut = process.StandardOutput.ReadToEnd();
@@ -195,7 +196,7 @@ public static class OsfMountRamDrive
         }
         finally
         {
-            Semaphore.Release();
+            _ = Semaphore.Release();
         }
     }
 
@@ -222,7 +223,7 @@ public static class OsfMountRamDrive
                     WindowStyle = ProcessWindowStyle.Hidden,
                 },
             };
-            process.Start();
+            _ = process.Start();
             await process.WaitForExitAsync();
             return process.ExitCode switch
             {
@@ -232,7 +233,7 @@ public static class OsfMountRamDrive
         }
         finally
         {
-            Semaphore.Release();
+            _ = Semaphore.Release();
         }
     }
 
@@ -277,9 +278,7 @@ public static class OsfMountRamDrive
         var tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         void ProcessExited(object? sender, EventArgs e)
-        {
-            tcs.TrySetResult(process.ExitCode);
-        }
+            => _ = tcs.TrySetResult(process.ExitCode);
 
         try
         {
@@ -298,10 +297,11 @@ public static class OsfMountRamDrive
             {
                 if (process.HasExited)
                 {
-                    tcs.TrySetResult(null!);
+                    // ! result of tcs.Task never used
+                    _ = tcs.TrySetResult(null!);
                 }
 
-                await tcs.Task.ConfigureAwait(false);
+                _ = await tcs.Task.ConfigureAwait(false);
             }
             finally
             {

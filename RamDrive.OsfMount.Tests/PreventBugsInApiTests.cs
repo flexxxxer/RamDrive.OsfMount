@@ -12,14 +12,14 @@ namespace RamDrive.OsfMount.IntegrationTests
         [Fact]
         public void OsfMountRamDiskMountAsyncNotThrowsOnAnyOfFilesystemEnumValues()
         {
-            _ = Record.Exception(() =>
+            Record.Exception(() =>
             {
                 foreach (var fileSystem in Enum.GetValues(typeof(FileSystemType))
                     .Cast<FileSystemType>()
                     .ToArray())
                 {
                     // must be error (MountError.TooLowSize) but not exception
-                    _ = OsfMountRamDrive.MountAsync(ByteSize.FromBytes(1), null, fileSystem);
+                    _ = OsfMountRamDrive.MountAsync(ByteSize.FromBytes(1), null, fileSystem).GetAwaiter().GetResult();
                 }
 
             }).Should().BeNull();

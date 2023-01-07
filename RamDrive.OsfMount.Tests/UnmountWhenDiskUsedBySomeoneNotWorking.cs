@@ -33,7 +33,7 @@ namespace RamDrive.OsfMount.IntegrationTests
             steamWriter.WriteLine("Hello, World!");
             var unmountResult = await OsfMountRamDrive.UnmountAsync(driveLetter);
             unmountResult.Should().NotBeNull();
-            
+
             // ReSharper disable once PossibleNullReferenceException
             // suppression not works, set code level analysis to C#8 breaks build.
             unmountResult.IsT0.Should().BeTrue();
