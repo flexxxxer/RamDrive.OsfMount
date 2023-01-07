@@ -8,7 +8,13 @@ using System.Diagnostics.CodeAnalysis;
 // There is a place for constantly used suppressions, above are only temporary
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1117:Parameters should be on same line or separate lines",
     Justification = "Supression lines too long")]
+[assembly: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type",
+    Justification = "Just no")]
+[assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:A record struct should not follow a class",
+    Justification = "Just no")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1633:File should have header",
+    Justification = "Just no")]
+[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name",
     Justification = "I want the file system names to be original")]
 [assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter",
     Justification = "I want the file system names to be original", Scope = "member", Target = "~F:RamDrive.OsfMount.FileSystemType.exFAT")]
@@ -24,13 +30,3 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Just dont want to separate type definitions", Scope = "type", Target = "~T:RamDrive.OsfMount.MountError.DriveSizeCannotBeGreaterThenTotalRamCapacity")]
 [assembly: SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1516:Elements should be separated by blank line",
     Justification = "Just don't want to separate type definitions", Scope = "type", Target = "~T:RamDrive.OsfMount.MountError.TooLowSize")]
-[assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter",
-    Justification = "StyleCop don't understand C# 9 record-types", Scope = "type", Target = "~T:RamDrive.OsfMount.MountError.DriveLetterInUseOrNotAllowed")]
-[assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter",
-    Justification = "StyleCop don't understand C# 9 record-types", Scope = "type", Target = "~T:RamDrive.OsfMount.MountError.TooLowSize")]
-[assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter",
-    Justification = "StyleCop don't understand C# 9 record-types", Scope = "type", Target = "~T:RamDrive.OsfMount.MountError.DriveSizeCannotBeGreaterThenTotalRamCapacity")]
-[assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter",
-    Justification = "StyleCop don't understand C# 9 record-types", Scope = "type", Target = "~T:RamDrive.OsfMount.UnmountError.DriveIsBusyWithAnotherProcess")]
-[assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter",
-    Justification = "StyleCop don't understand C# 9 record-types", Scope = "type", Target = "~T:RamDrive.OsfMount.DriveDoesNotExistOrNotAllowed")]

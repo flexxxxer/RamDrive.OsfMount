@@ -53,7 +53,7 @@ public static class OsfMountRamDrive
 {
     private static readonly ByteSize TotalRamCapacity = GetTotalRamCapacity();
     private static readonly string CliToolPath;
-    private static readonly SemaphoreSlim Semaphore = new (1, 1);
+    private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
     static OsfMountRamDrive()
     {
@@ -86,10 +86,9 @@ public static class OsfMountRamDrive
         {
             var sizeIsLowThenLimit = fileSystem switch
             {
-                FileSystemType.FAT32 => size.MebiBytes < 260,
                 FileSystemType.NTFS => size.MebiBytes < 3,
                 FileSystemType.exFAT => size.KibiBytes < 200,
-                _ => throw new NotImplementedException(),
+                FileSystemType.FAT32 or _ => size.MebiBytes < 260,
             };
 
             if (sizeIsLowThenLimit)
@@ -184,10 +183,13 @@ public static class OsfMountRamDrive
             };
             process.Start();
             await process.WaitForExitAsync();
+            var stdError = process.StandardError.ReadToEnd();
+            var stdOut = process.StandardOutput.ReadToEnd();
             return process.ExitCode switch
             {
                 0 => null,
-                not 0 when process.StandardError.ReadToEnd().Contains("Access is denied") => new UnmountError(new UnmountError.DriveIsBusyWithAnotherProcess(driveLetter)),
+                not 0 when stdError.Contains("Access is denied") => new UnmountError(new UnmountError.DriveIsBusyWithAnotherProcess(driveLetter)),
+                not 0 when stdOut.Contains("Done.") => null,
                 not 0 => new UnmountError(new DriveDoesNotExistOrNotAllowed(driveLetter)),
             };
         }
