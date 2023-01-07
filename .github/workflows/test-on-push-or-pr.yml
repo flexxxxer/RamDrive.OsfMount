@@ -3,6 +3,7 @@ on:
   push:
     paths-ignore:
       - README.md
+      - CONTRIBUTION.md
       - .gitignore
   pull_request:
     paths-ignore:
