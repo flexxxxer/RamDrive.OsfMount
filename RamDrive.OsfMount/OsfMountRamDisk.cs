@@ -184,8 +184,8 @@ public static class OsfMountRamDrive
             };
             _ = process.Start();
             await process.WaitForExitAsync();
-            var stdError = process.StandardError.ReadToEnd();
-            var stdOut = process.StandardOutput.ReadToEnd();
+            var stdError = await process.StandardError.ReadToEndAsync();
+            var stdOut = await process.StandardOutput.ReadToEndAsync();
             return process.ExitCode switch
             {
                 0 => null,
@@ -276,10 +276,7 @@ public static class OsfMountRamDrive
     private static async Task WaitForExitAsync(this Process process, CancellationToken cancellationToken = default)
     {
         var tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
-
-        void ProcessExited(object? sender, EventArgs e)
-            => _ = tcs.TrySetResult(process.ExitCode);
-
+        void ProcessExited(object? sender, EventArgs e) => _ = tcs.TrySetResult(process.ExitCode);
         try
         {
             process.EnableRaisingEvents = true;
@@ -292,7 +289,6 @@ public static class OsfMountRamDrive
         using (cancellationToken.Register(() => tcs.TrySetCanceled()))
         {
             process.Exited += ProcessExited;
-
             try
             {
                 if (process.HasExited)
