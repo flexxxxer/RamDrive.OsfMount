@@ -4,11 +4,13 @@ on:
     paths-ignore:
       - README.md
       - CONTRIBUTION.md
+      - NOTICE.txt
       - .gitignore
   pull_request:
     paths-ignore:
       - README.md
       - CONTRIBUTION.md
+      - NOTICE.txt
       - .gitignore
 jobs:
   build-and-test:

@@ -1,5 +1,5 @@
 RamDrive.OsfMount
-Copyright © flexxxxer Aleksandr
+Copyright © 2023 flexxxxer Aleksandr
 mailto:bahx4pc@gmail.com
 
 RamDrive.OsfMount uses third-party libraries or other resources that may be distributed under licenses different than the Nullable.Extended.Analyzer softwares.
