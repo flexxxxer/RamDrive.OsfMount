@@ -91,4 +91,4 @@ string? message = result?.Match(
 See [CONTRIBUTION.md](https://github.com/flexxxxer/RamDrive.OsfMount/blob/master/CONTRIBUTION.md).
 
 # License
-RamDisk is Copyright © 2023 Copyright © 2023 flexxxxer Aleksandr under the [Apache License, Version 2.0](https://github.com/flexxxxer/RamDrive.OsfMount/blob/master/License.txt).
+RamDrive.OsfMount is Copyright © 2023 Copyright © 2023 flexxxxer Aleksandr under the [Apache License, Version 2.0](https://github.com/flexxxxer/RamDrive.OsfMount/blob/master/License.txt).
