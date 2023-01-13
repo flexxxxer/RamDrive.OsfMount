@@ -14,14 +14,14 @@ namespace RamDrive.OsfMount.IntegrationTests
         {
             foreach (var driveLetter in DriveLettersForUsage)
             {
-                _ = OsfMountRamDrive.ForceUnmountAsync(driveLetter).GetAwaiter().GetResult();
+                _ = OsfMountRamDrive.ForceUnmount(driveLetter).GetAwaiter().GetResult();
             }
         }
 
         [Fact]
         public async Task NtfsMountWorking()
         {
-            var result = await OsfMountRamDrive.MountAsync(
+            var result = await OsfMountRamDrive.Mount(
                 ByteSize.FromMebiBytes(300),
                 DriveLettersForUsage.First(),
                 FileSystemType.NTFS);
@@ -32,7 +32,7 @@ namespace RamDrive.OsfMount.IntegrationTests
         [Fact]
         public async Task Fat32MountWorking()
         {
-            var result = await OsfMountRamDrive.MountAsync(
+            var result = await OsfMountRamDrive.Mount(
                 ByteSize.FromMebiBytes(300),
                 DriveLettersForUsage.Take(1).First(),
                 FileSystemType.FAT32);
@@ -43,7 +43,7 @@ namespace RamDrive.OsfMount.IntegrationTests
         [Fact]
         public async Task ExFatMountWorking()
         {
-            var result = await OsfMountRamDrive.MountAsync(
+            var result = await OsfMountRamDrive.Mount(
                 ByteSize.FromMebiBytes(300),
                 DriveLettersForUsage.Take(2).First(),
                 FileSystemType.exFAT);

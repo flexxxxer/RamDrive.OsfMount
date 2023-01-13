@@ -80,7 +80,7 @@ public static class OsfMountRamDrive
     /// <param name="driveLetter">Letter of ram drive. If <see langword="null"/>, then the first available will be will be assigned.</param>
     /// <param name="fileSystem">File system of ram drive.</param>
     /// <returns><see langword="null"/> if no errors, when some error then <see cref="MountError"/>.</returns>
-    public static async Task<MountError?> MountAsync(ByteSize size, DriveLetter? driveLetter, FileSystemType fileSystem)
+    public static async Task<MountError?> Mount(ByteSize size, DriveLetter? driveLetter, FileSystemType fileSystem)
     {
         await Semaphore.WaitAsync();
         try
@@ -164,7 +164,7 @@ public static class OsfMountRamDrive
     /// </summary>
     /// <param name="driveLetter">Letter of drive to unmount.</param>
     /// <returns><see langword="null"/> if no errors, when some error then <see cref="UnmountError"/>.</returns>
-    public static async Task<UnmountError?> UnmountAsync(DriveLetter driveLetter)
+    public static async Task<UnmountError?> Unmount(DriveLetter driveLetter)
     {
         await Semaphore.WaitAsync();
         try
@@ -201,11 +201,11 @@ public static class OsfMountRamDrive
     }
 
     /// <summary>
-    /// Works like <see cref="UnmountAsync(DriveLetter)"/>, but does not worry about other processes that use the specified drive.
+    /// Works like <see cref="Unmount(DriveLetter)"/>, but does not worry about other processes that use the specified drive.
     /// </summary>
     /// <param name="driveLetter">Letter of drive to unmount.</param>
     /// <returns><see langword="null"/> if no errors, otherwise <see cref="DriveDoesNotExistOrNotAllowed"/>.</returns>
-    public static async Task<DriveDoesNotExistOrNotAllowed?> ForceUnmountAsync(DriveLetter driveLetter)
+    public static async Task<DriveDoesNotExistOrNotAllowed?> ForceUnmount(DriveLetter driveLetter)
     {
         await Semaphore.WaitAsync();
         try

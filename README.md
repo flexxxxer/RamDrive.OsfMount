@@ -34,7 +34,7 @@ Mount ram drive with size 1.5Gb, under drive letter 'X' and file system NTFS:
 using RamDrive.OsfMount;
 using ByteSizeLib;
 
-var possibleError = await OsfMountRamDrive.MountAsync(
+var possibleError = await OsfMountRamDrive.Mount(
     ByteSize.FromGibiBytes(1.5),
     DriveLetter.X,
     FileSystemType.NTFS
@@ -46,7 +46,7 @@ Unmount ram drive under drive letter 'X':
 using RamDrive.OsfMount;
 using ByteSizeLib;
 
-var possibleError = await OsfMountRamDrive.UnmountAsync(DriveLetter.X);
+var possibleError = await OsfMountRamDrive.Unmount(DriveLetter.X);
 ```
 
 Force unmount ram drive under drive letter 'X' (force unmount will be abort all drive
@@ -55,7 +55,7 @@ under letter 'X' operations from other processes in system if exists):
 using RamDrive.OsfMount;
 using ByteSizeLib;
 
-var possibleError = await OsfMountRamDrive.ForceUnmountAsync(DriveLetter.X);
+var possibleError = await OsfMountRamDrive.ForceUnmount(DriveLetter.X);
 ```
 
 How to handle errors? Type of returned objects — types of errors described using 
@@ -67,7 +67,7 @@ using RamDrive.OsfMount;
 using ByteSizeLib;
 using OneOf;
 
-var result = await OsfMountRamDrive.MountAsync(
+var result = await OsfMountRamDrive.Mount(
      ByteSize.FromMebiBytes(300),
      DriveLettersForUsage.First(),
      FileSystemType.NTFS);

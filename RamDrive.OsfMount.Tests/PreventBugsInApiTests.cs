@@ -19,7 +19,7 @@ namespace RamDrive.OsfMount.IntegrationTests
                     .ToArray())
                 {
                     // must be error (MountError.TooLowSize) but not exception
-                    _ = OsfMountRamDrive.MountAsync(ByteSize.FromBytes(1), null, fileSystem).GetAwaiter().GetResult();
+                    _ = OsfMountRamDrive.Mount(ByteSize.FromBytes(1), null, fileSystem).GetAwaiter().GetResult();
                 }
 
             }).Should().BeNull();

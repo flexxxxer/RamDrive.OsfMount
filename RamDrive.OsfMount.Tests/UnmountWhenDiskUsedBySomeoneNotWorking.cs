@@ -15,7 +15,7 @@ namespace RamDrive.OsfMount.IntegrationTests
         {
             foreach (var driveLetter in DriveLettersForUsage)
             {
-                _ = OsfMountRamDrive.ForceUnmountAsync(driveLetter).GetAwaiter().GetResult();
+                _ = OsfMountRamDrive.ForceUnmount(driveLetter).GetAwaiter().GetResult();
             }
         }
 
@@ -24,14 +24,14 @@ namespace RamDrive.OsfMount.IntegrationTests
         {
             var driveLetter = DriveLettersForUsage.First();
 
-            var mountResult = await OsfMountRamDrive.MountAsync(ByteSize.FromMebiBytes(500), driveLetter, FileSystemType.NTFS);
+            var mountResult = await OsfMountRamDrive.Mount(ByteSize.FromMebiBytes(500), driveLetter, FileSystemType.NTFS);
             mountResult.Should().BeNull();
 
             var fileStream = File.Create($"{driveLetter}:/testfile.txt");
             var steamWriter = new StreamWriter(fileStream);
 
             steamWriter.WriteLine("Hello, World!");
-            var unmountResult = await OsfMountRamDrive.UnmountAsync(driveLetter);
+            var unmountResult = await OsfMountRamDrive.Unmount(driveLetter);
             unmountResult.Should().NotBeNull();
 
             // ReSharper disable once PossibleNullReferenceException
@@ -45,7 +45,7 @@ namespace RamDrive.OsfMount.IntegrationTests
             // and all sorts of other buzzwords
             await Task.Delay(TimeSpan.FromSeconds(10));
 
-            unmountResult = await OsfMountRamDrive.UnmountAsync(driveLetter);
+            unmountResult = await OsfMountRamDrive.Unmount(driveLetter);
             unmountResult.Should().BeNull();
         }
     }

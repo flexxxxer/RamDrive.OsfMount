@@ -14,7 +14,7 @@ namespace RamDrive.OsfMount.IntegrationTests
         [Fact]
         public async Task Mount1024TbFailed()
         {
-            var mountResult = await OsfMountRamDrive.MountAsync(
+            var mountResult = await OsfMountRamDrive.Mount(
                 ByteSize.FromTebiBytes(1024),
                 null,
                 FileSystemType.NTFS);
@@ -36,7 +36,7 @@ namespace RamDrive.OsfMount.IntegrationTests
                 .GetMethod("GetTotalRamCapacity", BindingFlags.Static | BindingFlags.NonPublic)
                 .Invoke(null, null);
 
-            var mountResult = await OsfMountRamDrive.MountAsync(
+            var mountResult = await OsfMountRamDrive.Mount(
                 totalAvailableNow + ByteSize.FromMebiBytes(300),
                 null,
                 FileSystemType.NTFS);

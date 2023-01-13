@@ -12,7 +12,7 @@ namespace RamDrive.OsfMount.IntegrationTests
         public async Task UnmountOnNotUsedDrivesNotWorking()
         {
             var resultsCollection = await DriveLettersForUsage.ToAsyncEnumerable()
-                .SelectAwait(async l => await OsfMountRamDrive.UnmountAsync(l))
+                .SelectAwait(async l => await OsfMountRamDrive.Unmount(l))
                 .ToArrayAsync();
 
             resultsCollection.Should().NotContainNulls();
