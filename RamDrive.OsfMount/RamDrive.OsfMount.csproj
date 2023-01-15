@@ -28,7 +28,6 @@
         <PackageTags>RamDrive RamDisk OSFMount VirtualDrive VirtualDisk</PackageTags>
         <Copyright>Copyright (c) 2023 flexxxxer Aleksandr.</Copyright>
         <PackageProjectUrl>https://github.com/flexxxxer/RamDrive.OsfMount</PackageProjectUrl>
-        <PackageLicenseUrl>https://spdx.org/licenses/Apache-2.0.html</PackageLicenseUrl>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/flexxxxer/RamDrive.OsfMount</RepositoryUrl>
         <PackageTags>ram-drive ram-disk osfmount</PackageTags>
