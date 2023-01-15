@@ -21,4 +21,6 @@ jobs:
       - name: Pack
         run: dotnet pack --no-build --configuration Release
       - name: Deploy to GitHub
-        run: dotnet nuget push **/*.nupkg --no-symbols --skip-duplicate --api-key ${{ secrets.TOKEN_GITHUB }} --source "github"
+        run: |
+          dotnet nuget add source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --name github --username ${{ github.repository_owner }} --password ${{ github.token }} --store-password-in-clear-text
+          dotnet nuget push **/*.nupkg --source github
