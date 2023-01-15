@@ -1,0 +1,26 @@
+name: Deploy new release
+
+on:
+  create:
+    branches:
+      - release/**
+
+jobs: 
+  build-test-deploy:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Rebuild # tests sometimes do not want to work without it
+        run: dotnet build --configuration Release --no-restore --no-incremental
+      - name: Run tests
+        run: dotnet test --no-restore --verbosity normal
+      - name: Pack
+        run: dotnet pack --no-build --configuration Release
+      - name: Deploy to GitHub
+        run: dotnet nuget push **/*.nupkg --no-symbols --skip-duplicate
+        env:
+          NUGET_AUTH_TOKEN: ${{ github.token }}
