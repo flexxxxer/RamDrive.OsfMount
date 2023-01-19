@@ -8,6 +8,8 @@ on:
 jobs: 
   build-test-deploy:
     runs-on: windows-2022
+    env:
+      TOKEN_PUBLISH_PACKAGES_GITHUB: ${{ secrets.TOKEN_PUBLISH_PACKAGES_GITHUB }}
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies
@@ -22,5 +24,7 @@ jobs:
         run: dotnet pack --no-build --configuration Release
       - name: Deploy to GitHub
         run: |
-          dotnet nuget add source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --name github --username ${{ github.repository_owner }} --password ${{ secrets.TOKEN_GITHUB }} --store-password-in-clear-text
+          dotnet nuget add source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json \
+          --name github --username ${{ github.repository_owner }} \
+          --password ${{ env.TOKEN_PUBLISH_PACKAGES_GITHUB }} --store-password-in-clear-text
           dotnet nuget push **/*.nupkg --source github
