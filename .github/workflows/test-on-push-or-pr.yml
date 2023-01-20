@@ -5,12 +5,14 @@ on:
       - README.md
       - CONTRIBUTION.md
       - NOTICE.txt
+      - VERSION_HISTORY.md
       - .gitignore
   pull_request:
     paths-ignore:
       - README.md
       - CONTRIBUTION.md
       - NOTICE.txt
+      - VERSION_HISTORY.md
       - .gitignore
 jobs:
   build-and-test:
@@ -19,9 +21,15 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install dependencies
         run: dotnet restore
-      - name: Build
-        run: dotnet build --no-restore
-      - name: Rebuild # tests sometimes do not want to work without it
-        run: dotnet build --no-incremental --no-restore
-      - name: Run tests
-        run: dotnet test --no-restore
+      - name: Build (Debug)
+        run: dotnet build --configuration Debug --no-restore
+      - name: Build (Release)
+        run: dotnet build --configuration Release --no-restore
+      - name: Rebuild (Debug) # tests sometimes do not want to work without it
+        run: dotnet build --configuration Debug --no-incremental --no-restore
+      - name: Rebuild (Release) # tests sometimes do not want to work without it
+        run: dotnet build --configuration Release --no-incremental --no-restore
+      - name: Run tests (Debug)
+        run: dotnet test --configuration Debug --no-restore
+      - name: Run tests (Release)
+        run: dotnet test --configuration Release --no-restore

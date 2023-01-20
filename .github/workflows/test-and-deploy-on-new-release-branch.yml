@@ -8,8 +8,6 @@ on:
 jobs: 
   build-test-deploy:
     runs-on: windows-2022
-    env:
-      TOKEN_PUBLISH_PACKAGES_GITHUB: ${{ secrets.TOKEN_PUBLISH_PACKAGES_GITHUB }}
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies
@@ -24,3 +22,4 @@ jobs:
         run: dotnet pack --no-build --configuration Release
       - name: Deploy to GitHub
         run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.PUBLISH_PACKAGES_GITHUB }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        
