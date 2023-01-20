@@ -13,9 +13,9 @@ public sealed partial class MountError : OneOfBase<
     MountError.TooLowSize,
     MountError.DriveSizeCannotBeGreaterThenTotalRamCapacity>
 {
-    public record struct DriveLetterInUseOrNotAllowed(DriveLetter? DriveLetter);
-    public record struct TooLowSize(ByteSize Size);
-    public record struct DriveSizeCannotBeGreaterThenTotalRamCapacity(ByteSize Size);
+  public record struct DriveLetterInUseOrNotAllowed(DriveLetter? DriveLetter);
+  public record struct TooLowSize(ByteSize Size);
+  public record struct DriveSizeCannotBeGreaterThenTotalRamCapacity(ByteSize Size);
 }
 
 /// <summary>
@@ -32,5 +32,5 @@ public sealed partial class UnmountError : OneOfBase<
     UnmountError.DriveIsBusyWithAnotherProcess,
     DriveDoesNotExistOrNotAllowed>
 {
-    public record struct DriveIsBusyWithAnotherProcess(DriveLetter DriveLetter);
+  public record struct DriveIsBusyWithAnotherProcess(DriveLetter DriveLetter);
 }
