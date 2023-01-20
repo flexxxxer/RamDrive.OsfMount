@@ -240,7 +240,7 @@ public static class OsfMountRamDrive
   private static ByteSize GetTotalRamCapacity()
   {
 #if NET6_0_OR_GREATER
-        return ByteSize.FromBytes(GC.GetGCMemoryInfo().TotalAvailableMemoryBytes);
+    return ByteSize.FromBytes(GC.GetGCMemoryInfo().TotalAvailableMemoryBytes);
 #else
     var hwInfo = new HardwareInfo();
     hwInfo.RefreshMemoryStatus();
@@ -260,9 +260,9 @@ public static class OsfMountRamDrive
     foreach (var resourceName in assembly.GetManifestResourceNames())
     {
       var resourcePath = resourceName
-              .Replace(resourcePrefix, string.Empty)
-              .Replace("osfmount_bin.win10.", @"osfmount_bin\win10\")
-              .Replace("osfmount_bin.", @"osfmount_bin\");
+        .Replace(resourcePrefix, string.Empty)
+        .Replace("osfmount_bin.win10.", @"osfmount_bin\win10\")
+        .Replace("osfmount_bin.", @"osfmount_bin\");
 
       using var resourceStream = assembly.GetManifestResourceStream(resourceName);
       using var fileStream = new FileStream(tempDir + resourcePath, FileMode.OpenOrCreate, FileAccess.Write);
