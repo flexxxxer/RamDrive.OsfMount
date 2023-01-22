@@ -1,9 +1,9 @@
 name: Deploy new release
 
 on:
-  create:
-    branches:
-      - release/**
+  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs: 
   build-test-deploy:
