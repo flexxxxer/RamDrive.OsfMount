@@ -90,5 +90,8 @@ string? message = result?.Match(
 # Contributing
 See [CONTRIBUTION.md](https://github.com/flexxxxer/RamDrive.OsfMount/blob/master/CONTRIBUTION.md).
 
+# Changelog/Version history
+See [VERSION_HISTORY.md](https://github.com/flexxxxer/RamDrive.OsfMount/blob/master/VERSION_HISTORY.md)
+
 # License
 RamDrive.OsfMount is Copyright © 2023 flexxxxer Aleksandr under the [Apache License, Version 2.0](https://github.com/flexxxxer/RamDrive.OsfMount/blob/master/License.txt).

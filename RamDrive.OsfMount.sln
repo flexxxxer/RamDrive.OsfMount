@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		NOTICE.txt = NOTICE.txt
 		nuget.config = nuget.config
 		README.md = README.md
+		VERSION_HISTORY.md = VERSION_HISTORY.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RamDrive.OsfMount", "RamDrive.OsfMount\RamDrive.OsfMount.csproj", "{28B64E16-1773-4662-A5AE-221143D81037}"
