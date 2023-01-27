@@ -30,17 +30,14 @@
         <PackageProjectUrl>https://github.com/flexxxxer/RamDrive.OsfMount</PackageProjectUrl>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/flexxxxer/RamDrive.OsfMount</RepositoryUrl>
-        <PackageTags>ram-drive ram-disk osfmount</PackageTags>
+        <PackageTags>ram-drive ram-disk osfmount ramdisk ramdrive</PackageTags>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		
         <!-- Embed source files that are not tracked by the source control manager in the PDB -->
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <!-- Recommended: Embed symbols containing Source Link in the main file (exe/dll) -->
         <DebugType>embedded</DebugType>
-    </PropertyGroup>
-	
-	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
 	
     <ItemGroup>
@@ -87,6 +84,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\"/>
 		<EmbeddedResource Include="osfmount-bin\**\*.*" />
 	</ItemGroup>
 
