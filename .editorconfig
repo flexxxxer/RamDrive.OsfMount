@@ -1,3 +1,4 @@
+root = true
 
 [*.{cs,vb}]
 #### Naming styles ####
