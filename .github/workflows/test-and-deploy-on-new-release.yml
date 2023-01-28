@@ -13,13 +13,13 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore /p:ContinuousIntegrationBuild=true
       - name: Rebuild # tests sometimes do not want to work without it
-        run: dotnet build --configuration Release --no-restore --no-incremental
+        run: dotnet build --configuration Release --no-restore --no-incremental /p:ContinuousIntegrationBuild=true
       - name: Run tests
         run: dotnet test --no-restore --verbosity normal
       - name: Pack
-        run: dotnet pack --no-build --configuration Release /p:ContinuousIntegrationBuild=true
+        run: dotnet pack --no-build --configuration Release
       - name: Deploy to GitHub
         run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.PUBLISH_PACKAGES_GITHUB }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       - name: Deploy to NuGet
