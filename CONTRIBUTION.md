@@ -21,12 +21,15 @@ The scenario for running the script before assembly is described in `RamDrive.Os
 **You can delete this part if you build your own RamDrive.OsfMount library version and/or change
 OSFMount binary files, but pull requests that remove the check script launch scenario or 
 change the check script or change OSFMount binaries will not be considered and 
-will be rejected**. Why? if it were possible, then the probability of substituting a malicious binary file would be high. 
+will be rejected**. Why? If it were possible, then the probability of substituting a malicious binary file would be high. 
 **The only person who can change the OSFMount binaries or change the `validate-osfmount-file-hashes.ps1` 
-script is the author of the repository**. but, it also remains possible for anyone to check the authenticity of the binary 
+script is the author of the repository**. But, it also remains possible for anyone to check the authenticity of the binary 
 files in this repository through independent verification of the hashes of the files from the repository and the
 original ones (the original ones can be obtained by installing OSFMount and going to its installation folder).
 For example, using PowerShell function `Get-FileHash <file-path> -Algorithm <algorithm>`.
+If the hashes of one of the files differ from the declared ones, then:
+- instead of downloading the repository as an archive, use `git clone`.
+- if **after** `git clone` the hashes of the files differ from the declared ones, then create an issue on the repository page.
 
 ## Run tests
 Because OSFMount requires admin rights, it requires the IDE or terminal to be
