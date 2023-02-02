@@ -1,102 +1,112 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0-windows;net7.0-windows</TargetFrameworks>
-        <Nullable>enable</Nullable>
-        <LangVersion>latest</LangVersion>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net462;net47;net471;net472;net48;net6.0-windows;net7.0-windows</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
 
-	<PropertyGroup Label="QualityWall">
-		<WarningLevel>4</WarningLevel>
-		<AnalysisLevel>latest</AnalysisLevel>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        
-		<!-- this warning is not only generated on generated code that cannot be documented, 
+  <PropertyGroup Label="QualityWall">
+    <WarningLevel>4</WarningLevel>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <!-- this warning is not only generated on generated code that cannot be documented, 
 		     but also it cannot be suppressed in a suppression file. in addition to everything 
 		     listed above, there is a similar error from a third-party analyzer that does not 
 		     have the disadvantages listed above (SA1602 and another one I don't remember)  -->
-		<NoWarn>CS1591</NoWarn>
-	</PropertyGroup>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
 
-    <PropertyGroup Label="NuGet">
-        <Version>3.1.1001.2</Version>
-        <PackageVersion>3.1.1001.2</PackageVersion>
-        <Title>RamDrive.OsfMount</Title>
-        <Authors>flexxxxer Aleksandr</Authors>
-        <Description>A library for create virtual disk drive on system memory using (c) PassMark OSFMount software.</Description>
-        <PackageTags>RamDrive RamDisk OSFMount VirtualDrive VirtualDisk</PackageTags>
-        <Copyright>Copyright (c) 2023 flexxxxer Aleksandr.</Copyright>
-        <PackageProjectUrl>https://github.com/flexxxxer/RamDrive.OsfMount</PackageProjectUrl>
-        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <RepositoryUrl>https://github.com/flexxxxer/RamDrive.OsfMount</RepositoryUrl>
-        <PackageTags>ram-drive ram-disk osfmount ramdisk ramdrive</PackageTags>
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		
-        <!-- Embed source files that are not tracked by the source control manager in the PDB -->
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <!-- Recommended: Embed symbols containing Source Link in the main file (exe/dll) -->
-        <DebugType>embedded</DebugType>
-    </PropertyGroup>
-	
-    <ItemGroup>
-        <PackageReference Include="OneOf" Version="3.0.223" />
-        <PackageReference Include="OneOf.SourceGenerator" Version="3.0.223" />
-        <PackageReference Include="ByteSize" Version="2.1.1" />
-        <PackageReference Include="Roslynator.Analyzers" Version="4.2.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.2.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-		<PackageReference Include="Supernova.Enum.Generators" Version="1.0.13">
-			<PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.52.0.60960">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-		<PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-		<PackageReference Include="Nullable.Extended.Analyzer" Version="1.10.4539">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		
-		<!-- Hardware.Info for getting total ram capacity, only for legacy dotnet -->
-		<PackageReference Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net48'" Include="Hardware.Info" Version="10.1.1" />
-    </ItemGroup>
+  <PropertyGroup Label="NuGet">
+    <Version>3.1.1001.2</Version>
+    <PackageVersion>3.1.1001.2</PackageVersion>
+    <Title>RamDrive.OsfMount</Title>
+    <Authors>flexxxxer Aleksandr</Authors>
+    <Description>A library for create virtual disk drive on system memory using (c) PassMark OSFMount software.</Description>
+    <PackageTags>RamDrive RamDisk OSFMount VirtualDrive VirtualDisk</PackageTags>
+    <Copyright>Copyright (c) 2023 flexxxxer Aleksandr.</Copyright>
+    <PackageProjectUrl>https://github.com/flexxxxer/RamDrive.OsfMount</PackageProjectUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/flexxxxer/RamDrive.OsfMount</RepositoryUrl>
+    <PackageTags>ram-drive ram-disk osfmount ramdisk ramdrive</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!-- Embed source files that are not tracked by the source control manager in the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Recommended: Embed symbols containing Source Link in the main file (exe/dll) -->
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OneOf" Version="3.0.223" />
+    <PackageReference Include="OneOf.SourceGenerator" Version="3.0.223" />
+    <PackageReference Include="ByteSize" Version="2.1.1" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Supernova.Enum.Generators" Version="1.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.52.0.60960">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Nullable.Extended.Analyzer" Version="1.10.4539">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <!-- Hardware.Info for getting total ram capacity, only for legacy dotnet -->
+    <PackageReference Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net48'" Include="Hardware.Info" Version="10.1.1" />
     
-	<ItemGroup>
-		<Content Include="osfmount-bin\**">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-	</ItemGroup>
+    <!-- security analyzers -->
+    <PackageReference Include="Puma.Security.Rules.2022" Version="2.4.23">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SecurityCodeScan.VS2019" Version="5.6.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
-	<ItemGroup>
-		<None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\"/>
-		<EmbeddedResource Include="osfmount-bin\**\*.*" />
-	</ItemGroup>
+  <ItemGroup>
+    <Content Include="osfmount-bin\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
+  <ItemGroup>
+    <None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\" />
+    <EmbeddedResource Include="osfmount-bin\**\*.*" />
+  </ItemGroup>
 
-    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-      <Exec Command="pwsh.exe -NonInteractive -File &quot;ps-osfmount-validation\validate-osfmount-file-hashes.ps1&quot;" />
-    </Target>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="pwsh.exe -NonInteractive -File &quot;ps-osfmount-validation\validate-osfmount-file-hashes.ps1&quot;" />
+  </Target>
 </Project>
