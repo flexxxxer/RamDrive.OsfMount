@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -255,9 +256,17 @@ public static class OsfMountRamDrive
     var resourcePrefix = Assembly.GetExecutingAssembly().GetName().Name + ".";
 
     _ = Directory.CreateDirectory(tempDir);
-    _ = Directory.CreateDirectory(tempDir + @"osfmount_bin\");
-    _ = Directory.CreateDirectory(tempDir + @"\osfmount_bin\win10\");
-    foreach (var resourceName in assembly.GetManifestResourceNames())
+    _ = Directory.CreateDirectory(Path.Combine(tempDir, @"osfmount_bin\"));
+    _ = Directory.CreateDirectory(Path.Combine(tempDir, @"osfmount_bin\win10\"));
+
+    // for "CWE-23 Relative Path Traversal"
+    var manifestResourceNames = assembly.GetManifestResourceNames();
+    if (manifestResourceNames.Any(rn => rn.Contains(new string(new[] { '.', '.' }))))
+    {
+      throw new SecurityException($"Assembly {assembly.FullName} was corrupted.");
+    }
+
+    foreach (var resourceName in manifestResourceNames)
     {
       var resourcePath = resourceName
         .Replace(resourcePrefix, string.Empty)
@@ -265,11 +274,11 @@ public static class OsfMountRamDrive
         .Replace("osfmount_bin.", @"osfmount_bin\");
 
       using var resourceStream = assembly.GetManifestResourceStream(resourceName);
-      using var fileStream = new FileStream(tempDir + resourcePath, FileMode.OpenOrCreate, FileAccess.Write);
+      using var fileStream = new FileStream(Path.Combine(tempDir, resourcePath), FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
       resourceStream?.CopyTo(fileStream);
     }
 
-    return (tempDir, tempDir + @"osfmount_bin\OSFMount.com");
+    return (tempDir, Path.Combine(tempDir, @"osfmount_bin\OSFMount.com"));
   }
 
 #if NETFRAMEWORK
