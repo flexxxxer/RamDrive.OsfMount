@@ -280,39 +280,4 @@ public static class OsfMountRamDrive
 
     return (tempDir, Path.Combine(tempDir, @"osfmount_bin\OSFMount.com"));
   }
-
-#if NETFRAMEWORK
-  private static async Task WaitForExitAsync(this Process process, CancellationToken cancellationToken = default)
-  {
-    var tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
-    void ProcessExited(object? sender, EventArgs e) => _ = tcs.TrySetResult(process.ExitCode);
-    try
-    {
-      process.EnableRaisingEvents = true;
-    }
-    catch (InvalidOperationException) when (process.HasExited)
-    {
-      // ignoring, don't care
-    }
-
-    using (cancellationToken.Register(() => tcs.TrySetCanceled()))
-    {
-      process.Exited += ProcessExited;
-      try
-      {
-        if (process.HasExited)
-        {
-          // ! result of tcs.Task never used
-          _ = tcs.TrySetResult(null!);
-        }
-
-        _ = await tcs.Task.ConfigureAwait(false);
-      }
-      finally
-      {
-        process.Exited -= ProcessExited;
-      }
-    }
-  }
-#endif
 }
