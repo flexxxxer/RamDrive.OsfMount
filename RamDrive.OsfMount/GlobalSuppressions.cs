@@ -49,3 +49,6 @@ using System.Diagnostics.CodeAnalysis;
   the library will consider the resource manifest and the resources themselves compromised. 
   There is protection against CWE-23, but not in the form that a static analyzer wants to see.
   """, Scope = "member", Target = "~M:RamDrive.OsfMount.OsfMountRamDrive.LoadEmbeddedResources()")]
+[assembly: SuppressMessage("Security", "SEC0032:Command Injection Process Start Info", Scope = "member",
+  Target = "~M:RamDrive.OsfMount.OsfMountRamDrive.AllRamDrivesNoLock~System.Collections.Generic.IAsyncEnumerable{RamDrive.OsfMount.Drive}",
+  Justification = "No way to pass command in another way.")]

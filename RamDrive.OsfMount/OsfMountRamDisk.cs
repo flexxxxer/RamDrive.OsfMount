@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -48,6 +49,8 @@ public enum DriveLetter
   X, Y, Z,
 }
 
+public record Drive(ByteSize Size, DriveLetter DriveLetter, FileSystemType FileSystem);
+
 /// <summary>
 /// Api for osfmount ram drive operations.
 /// </summary>
@@ -83,7 +86,7 @@ public static class OsfMountRamDrive
   /// <returns><see langword="null"/> if no errors, when some error then <see cref="MountError"/>.</returns>
   public static async Task<MountError?> Mount(ByteSize size, DriveLetter? driveLetter, FileSystemType fileSystem)
   {
-    await Semaphore.WaitAsync();
+    await Semaphore.WaitAsync().ConfigureAwait(false);
     try
     {
       var sizeIsLowThenLimit = fileSystem switch
@@ -147,7 +150,7 @@ public static class OsfMountRamDrive
         },
       };
       _ = process.Start();
-      await process.WaitForExitAsync();
+      await process.WaitForExitAsync().ConfigureAwait(false);
       return process.ExitCode switch
       {
         0 => null,
@@ -167,9 +170,16 @@ public static class OsfMountRamDrive
   /// <returns><see langword="null"/> if no errors, when some error then <see cref="UnmountError"/>.</returns>
   public static async Task<UnmountError?> Unmount(DriveLetter driveLetter)
   {
-    await Semaphore.WaitAsync();
+    await Semaphore.WaitAsync().ConfigureAwait(false);
     try
     {
+      if (!await AllRamDrivesNoLock()
+      .Select(d => d.DriveLetter)
+      .ContainsAsync(driveLetter).ConfigureAwait(false))
+      {
+        return new UnmountError(new DriveDoesNotExistOrNotAllowed(driveLetter));
+      }
+
       using var process = new Process
       {
         StartInfo = new ProcessStartInfo
@@ -184,9 +194,9 @@ public static class OsfMountRamDrive
         },
       };
       _ = process.Start();
-      await process.WaitForExitAsync();
-      var stdError = await process.StandardError.ReadToEndAsync();
-      var stdOut = await process.StandardOutput.ReadToEndAsync();
+      await process.WaitForExitAsync().ConfigureAwait(false);
+      var stdError = await process.StandardError.ReadToEndAsync().ConfigureAwait(false);
+      var stdOut = await process.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
       return process.ExitCode switch
       {
         0 => null,
@@ -208,9 +218,16 @@ public static class OsfMountRamDrive
   /// <returns><see langword="null"/> if no errors, otherwise <see cref="DriveDoesNotExistOrNotAllowed"/>.</returns>
   public static async Task<DriveDoesNotExistOrNotAllowed?> ForceUnmount(DriveLetter driveLetter)
   {
-    await Semaphore.WaitAsync();
+    await Semaphore.WaitAsync().ConfigureAwait(false);
     try
     {
+      if (!await AllRamDrivesNoLock()
+      .Select(d => d.DriveLetter)
+      .ContainsAsync(driveLetter).ConfigureAwait(false))
+      {
+        return new DriveDoesNotExistOrNotAllowed(driveLetter);
+      }
+
       using var process = new Process
       {
         StartInfo = new ProcessStartInfo
@@ -225,7 +242,7 @@ public static class OsfMountRamDrive
         },
       };
       _ = process.Start();
-      await process.WaitForExitAsync();
+      await process.WaitForExitAsync().ConfigureAwait(false);
       return process.ExitCode switch
       {
         0 => null,
@@ -235,6 +252,80 @@ public static class OsfMountRamDrive
     finally
     {
       _ = Semaphore.Release();
+    }
+  }
+
+  /// <summary>
+  /// Enumerates all active in-memory disks created via OsfMount.
+  /// </summary>
+  /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+  public static async IAsyncEnumerable<Drive> AllRamDrives()
+  {
+    await Semaphore.WaitAsync().ConfigureAwait(false);
+    try
+    {
+      await foreach (var drive in AllRamDrivesNoLock().ConfigureAwait(false))
+      {
+        yield return drive;
+      }
+    }
+    finally
+    {
+      _ = Semaphore.Release();
+    }
+  }
+
+  private static async IAsyncEnumerable<Drive> AllRamDrivesNoLock()
+  {
+    foreach (var driveLetter in DriveLetterEnumExtensions.GetValuesFast())
+    {
+      var drive = await TryGetDriveFromLetter(driveLetter).ConfigureAwait(false);
+      if (drive is not null)
+      {
+        yield return drive;
+      }
+    }
+
+    static async Task<Drive?> TryGetDriveFromLetter(DriveLetter letter)
+    {
+      using var process = new Process
+      {
+        StartInfo = new ProcessStartInfo
+        {
+          UseShellExecute = false,
+          RedirectStandardError = true,
+          RedirectStandardOutput = true,
+          FileName = CliToolPath,
+          Arguments = $"-l -m {letter.ToStringFast()[0]}:",
+          CreateNoWindow = true,
+          WindowStyle = ProcessWindowStyle.Hidden,
+        },
+      };
+      _ = process.Start();
+      await process.WaitForExitAsync().ConfigureAwait(false);
+      var stdOut = await process.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
+      return process.ExitCode switch
+      {
+        not 0 => null,
+        0 when stdOut.Length is 0 => null,
+        0 => DriveInfoExtract(letter),
+      };
+    }
+
+    static Drive DriveInfoExtract(DriveLetter letter)
+    {
+      var driveInfo = DriveInfo
+        .GetDrives()
+        .Single(d => d.Name.StartsWith(letter.ToStringFast()));
+
+      var fileSystem = driveInfo.DriveFormat.ToLower() switch
+      {
+        "ntfs" => FileSystemType.NTFS,
+        "exfat" => FileSystemType.exFAT,
+        "fat32" or _ => FileSystemType.FAT32,
+      };
+
+      return new(ByteSize.FromBytes(driveInfo.TotalSize), letter, fileSystem);
     }
   }
 
