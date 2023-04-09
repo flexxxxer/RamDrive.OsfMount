@@ -27,7 +27,7 @@ namespace RamDrive.OsfMount.IntegrationTests
       var driveLetter = DriveLettersForUsage.First();
 
       var mountResult = await OsfMountRamDrive.Mount(ByteSize.FromMebiBytes(500), driveLetter, FileSystemType.NTFS);
-      mountResult.Should().BeNull();
+      mountResult.IsT0.Should().BeFalse();
 
       var fileStream = File.Create($"{driveLetter}:/testfile.txt");
       var steamWriter = new StreamWriter(fileStream);

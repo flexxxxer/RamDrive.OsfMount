@@ -52,3 +52,12 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Security", "SEC0032:Command Injection Process Start Info", Scope = "member",
   Target = "~M:RamDrive.OsfMount.OsfMountRamDrive.AllRamDrivesNoLock~System.Collections.Generic.IAsyncEnumerable{RamDrive.OsfMount.Drive}",
   Justification = "No way to pass command in another way.")]
+[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Scope = "type",
+  Target = "~T:RamDrive.OsfMount.Extensions.TryParse`1",
+  Justification = "Not necessary")]
+[assembly: SuppressMessage("Style", "IDE0022:Use block body for method", Scope = "member",
+  Target = "~M:RamDrive.OsfMount.Extensions.Pipe``1(System.String,RamDrive.OsfMount.Extensions.TryParse{``0})~``0",
+  Justification = "Not necessary")]
+[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Scope = "member",
+  Target = "~M:RamDrive.OsfMount.Extensions.Pipe``1(System.String,RamDrive.OsfMount.Extensions.TryParse{``0})~``0",
+  Justification = "Not necessary")]

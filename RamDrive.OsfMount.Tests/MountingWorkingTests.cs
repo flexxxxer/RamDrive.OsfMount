@@ -25,7 +25,8 @@ namespace RamDrive.OsfMount.IntegrationTests
     {
       var result = await OsfMountRamDrive.Mount(ByteSize.FromMebiBytes(300), DriveLettersForUsage.First(), FileSystemType.NTFS);
 
-      result.Should().BeNull();
+      result.IsT0.Should().BeFalse();
+      result.IsT1.Should().BeTrue();
     }
 
     [Fact]
@@ -33,7 +34,8 @@ namespace RamDrive.OsfMount.IntegrationTests
     {
       var result = await OsfMountRamDrive.Mount(ByteSize.FromMebiBytes(300), DriveLettersForUsage.Take(1).First(), FileSystemType.FAT32);
 
-      result.Should().BeNull();
+      result.IsT0.Should().BeFalse();
+      result.IsT1.Should().BeTrue();
     }
 
     [Fact]
@@ -41,7 +43,8 @@ namespace RamDrive.OsfMount.IntegrationTests
     {
       var result = await OsfMountRamDrive.Mount(ByteSize.FromMebiBytes(300), DriveLettersForUsage.Take(2).First(), FileSystemType.exFAT);
 
-      result.Should().BeNull();
+      result.IsT0.Should().BeFalse();
+      result.IsT1.Should().BeTrue();
     }
   }
 }

@@ -50,4 +50,9 @@ internal static class Extensions
     }
   }
 #endif
+
+  internal delegate bool TryParse<T>(string str, out T @out);
+
+  internal static T? Pipe<T>(this string str, TryParse<T> parseFunc)
+    => parseFunc(str, out var @out) ? @out : default;
 }

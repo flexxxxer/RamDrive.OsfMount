@@ -5,12 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using ByteSizeLib;
 
 using EnumFastToStringGenerated;
+
+using OneOf;
 
 #if NETFRAMEWORK
 using Hardware.Info;
@@ -83,8 +86,8 @@ public static class OsfMountRamDrive
   /// <param name="size">Size of ram drive.</param>
   /// <param name="driveLetter">Letter of ram drive. If <see langword="null"/>, then the first available will be will be assigned.</param>
   /// <param name="fileSystem">File system of ram drive.</param>
-  /// <returns><see langword="null"/> if no errors, when some error then <see cref="MountError"/>.</returns>
-  public static async Task<MountError?> Mount(ByteSize size, DriveLetter? driveLetter, FileSystemType fileSystem)
+  /// <returns><see cref="MountError"/> when some error, otherwise <see cref="Drive"/>.</returns>
+  public static async Task<OneOf<MountError, Drive>> Mount(ByteSize size, DriveLetter? driveLetter, FileSystemType fileSystem)
   {
     await Semaphore.WaitAsync().ConfigureAwait(false);
     try
@@ -151,10 +154,20 @@ public static class OsfMountRamDrive
       };
       _ = process.Start();
       await process.WaitForExitAsync().ConfigureAwait(false);
+      var stdOut = await process.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
+      var driveLetterRegex = new Regex(".*Created device \\d+: (.*): ->", RegexOptions.Compiled);
+
+      // ! driveLetter!.Value will not throw exception if case will be
       return process.ExitCode switch
       {
-        0 => null,
-        not 0 => new MountError(new MountError.DriveLetterInUseOrNotAllowed(driveLetter)),
+        0 when driveLetterRegex.Matches(stdOut)
+          .Cast<Match>()
+          .FirstOrDefault()
+          ?.Groups?[1]
+          ?.Value
+          ?.Pipe<DriveLetter>(Enum.TryParse)
+          is DriveLetter letter => new Drive(size, letter, fileSystem),
+        _ => new MountError(new MountError.DriveLetterInUseOrNotAllowed(driveLetter)),
       };
     }
     finally

@@ -16,11 +16,8 @@ namespace RamDrive.OsfMount.IntegrationTests
     {
       var mountResult = await OsfMountRamDrive.Mount(ByteSize.FromTebiBytes(1024), null, FileSystemType.NTFS);
 
-      mountResult.Should().NotBeNull();
-
-      // ReSharper disable once PossibleNullReferenceException
-      // suppression not works, set code level analysis to C#8 breaks build.
-      mountResult.IsT2.Should().BeTrue();
+      mountResult.IsT0.Should().BeTrue();
+      mountResult.AsT0.IsT2.Should().BeTrue();
     }
 
     // Maybe the first one will stop working, then this one should work
@@ -38,11 +35,8 @@ namespace RamDrive.OsfMount.IntegrationTests
           null,
           FileSystemType.NTFS);
 
-      mountResult.Should().NotBeNull();
-
-      // ReSharper disable once PossibleNullReferenceException
-      // suppression not works, set code level analysis to C#8 breaks build.
-      mountResult.IsT2.Should().BeTrue();
+      mountResult.IsT0.Should().BeTrue();
+      mountResult.AsT0.IsT2.Should().BeTrue();
     }
   }
 }
