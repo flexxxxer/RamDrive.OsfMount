@@ -87,6 +87,17 @@ string? message = result?.Match(
 );
 ```
 
+Or, you can use object-oriented approach with disposable object:
+```csharp
+using (var drive = await OsfMountRamDrive.New(ByteSize.FromMebiBytes(512), FileSystemType.NTFS))
+{
+  string drivePath = drive.Path;
+  DriveLetter driveLetter = drive.DriveLetter;
+  
+  // use drive ...
+} 
+```
+
 # Contributing
 See [CONTRIBUTION.md](https://github.com/flexxxxer/RamDrive.OsfMount/blob/master/CONTRIBUTION.md).
 
