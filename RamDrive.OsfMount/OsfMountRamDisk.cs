@@ -288,6 +288,25 @@ public static class OsfMountRamDrive
     }
   }
 
+  /// <summary>
+  /// Creates and mounts new ram drive with first free drive letter.
+  /// </summary>
+  /// <param name="size">Drive size.</param>
+  /// <param name="fileSystem">Drive filesystem.</param>
+  /// <returns>New <see cref="ObjectOriented.RamDrive"/> instance.</returns>
+  public static async Task<ObjectOriented.RamDrive> New(ByteSize size, FileSystemType fileSystem)
+    => await ObjectOriented.RamDrive.New(size, fileSystem, null);
+
+  /// <summary>
+  /// Creates and mounts new ram drive.
+  /// </summary>
+  /// <param name="size">Drive size.</param>
+  /// <param name="driveLetter">Drive letter. If null, then will be assigned first free letter.</param>
+  /// <param name="fileSystem">Drive filesystem.</param>
+  /// <returns>New <see cref="ObjectOriented.RamDrive"/> instance.</returns>
+  public static async Task<ObjectOriented.RamDrive> New(ByteSize size, DriveLetter? driveLetter, FileSystemType fileSystem)
+    => await ObjectOriented.RamDrive.New(size, fileSystem, driveLetter);
+
   private static async IAsyncEnumerable<Drive> AllRamDrivesNoLock()
   {
     foreach (var driveLetter in DriveLetterEnumExtensions.GetValuesFast())
