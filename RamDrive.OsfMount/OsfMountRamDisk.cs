@@ -121,12 +121,6 @@ public static class OsfMountRamDrive
         return new MountError(new MountError.DriveSizeCannotBeGreaterThenTotalRamCapacity(size));
       }
 
-      // I consider the limitation in the form of a reserve of 1 gigabyte for the operating system to be solid
-      if (TotalRamCapacity - ByteSize.FromGigaBytes(1) <= size)
-      {
-        return new MountError(new MountError.DriveSizeCannotBeGreaterThenTotalRamCapacity(size));
-      }
-
       var driveLetterSymbol = driveLetter switch
       {
         // from osfmount documentation:
