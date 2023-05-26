@@ -109,7 +109,7 @@ public static class OsfMountRamDrive
         var letter = driveLetter.Value.ToStringFast()[0];
 
         // this check is not guaranteed to be free of problems, but it can probably detect a mount letter already in use
-        if (DriveInfo.GetDrives().Any(d => d.Name.Length is 3 && d.Name[0] == letter))
+        if (Array.Exists(DriveInfo.GetDrives(), d => d.Name.Length is 3 && d.Name[0] == letter))
         {
           return new MountError(new MountError.DriveLetterInUseOrNotAllowed(driveLetter.Value));
         }
@@ -151,7 +151,6 @@ public static class OsfMountRamDrive
       var stdOut = await process.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
       var driveLetterRegex = new Regex(".*Created device \\d+: (.*): ->", RegexOptions.Compiled);
 
-      // ! driveLetter!.Value will not throw exception if case will be
       return process.ExitCode switch
       {
         0 when driveLetterRegex.Matches(stdOut)
@@ -378,7 +377,7 @@ public static class OsfMountRamDrive
 
     // for "CWE-23 Relative Path Traversal"
     var manifestResourceNames = assembly.GetManifestResourceNames();
-    if (manifestResourceNames.Any(rn => rn.Contains(new string(new[] { '.', '.' }))))
+    if (Array.Exists(manifestResourceNames, rn => rn.Contains(new string(new[] { '.', '.' }))))
     {
       throw new SecurityException($"Assembly {assembly.FullName} was corrupted.");
     }
