@@ -42,7 +42,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OneOf" Version="3.0.243" />
+    <PackageReference Include="OneOf" Version="3.0.255" />
     <PackageReference Include="OneOf.SourceGenerator" Version="3.0.255" />
     <PackageReference Include="ByteSize" Version="2.1.1" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
