@@ -77,7 +77,7 @@
     </PackageReference>
 
     <!-- Hardware.Info for getting total ram capacity, only for legacy dotnet -->
-    <PackageReference Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net48'" Include="Hardware.Info" Version="11.1.0" />
+    <PackageReference Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net48'" Include="Hardware.Info" Version="11.1.0.1" />
     
     <!-- security analyzers -->
     <PackageReference Include="Puma.Security.Rules.2022" Version="2.4.23">
